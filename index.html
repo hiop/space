@@ -1,1 +1,35 @@
-<h1>Hello</h1>
+<!DOCTYPE html>
+<html>
+	<head>
+		<script type="text/javascript" src="./kiwi/kiwi.js"></script>
+	</head>
+	<body>
+	</body>
+	<script>
+		var game = new Kiwi.Game();
+		var gameState = new Kiwi.State( "Game" );
+		
+		gameState.preload = function () {
+			Kiwi.State.prototype.preload.call(this);
+			
+			//this.addSpriteSheet( 'characterSprite', 'character.png', 150, 117 );
+			this.addImage( 'player', './img/fighter-01.png', true );
+		}
+		
+		gameState.create = function (){
+			Kiwi.State.prototype.create.call( this );
+			
+			//this.player = new Kiwi.GameObjects.Sprite( this, this.textures["player"],350, 330, true);
+			//this.addChild(this.player);
+		}
+					
+		gameState.update = function() {
+			Kiwi.State.prototype.update.call(this);
+			console.log(123);
+		}
+		
+		
+		game.states.addState(gameState);
+		game.states.switchState("Game");
+	</script>
+</html>
