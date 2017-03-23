@@ -3,30 +3,74 @@
 	<head>
 		<script type="text/javascript" src="./kiwi/kiwi.js"></script>
 	</head>
-	<body>
-	</body>
+	<body style="background-color: #ccc;">
+	</body >
 	<script>
-		var game = new Kiwi.Game();
+		
+		var gameOptions = {
+			renderer: Kiwi.RENDERER_WEBGL, 
+			width: 1280,
+			height: 720
+		}
+		var game = new Kiwi.Game('content', 'Game', null, gameOptions);
+
 		var gameState = new Kiwi.State( "Game" );
 		
 		gameState.preload = function () {
 			Kiwi.State.prototype.preload.call(this);
-			
+			this.mouse = this.game.input.mouse;
 			//this.addSpriteSheet( 'characterSprite', 'character.png', 150, 117 );
 			this.addImage( 'player', './img/fighter-01.png', true );
 		}
-		
+
 		gameState.create = function (){
 			Kiwi.State.prototype.create.call( this );
 			
-			this.player = new Kiwi.GameObjects.Sprite( this, this.textures["player"],700, 700, true);
-			//this.player.scale = 0.2;
+			this.player = new Kiwi.GameObjects.Sprite( this, this.textures["player"],0, 0, true);
 			this.addChild(this.player);
+			//this.player.transform.scale = 0.3;
+			//this.player.anchorPointY = 0;
+			//this.player.anchorPointX = 0;
+			
+			//console.log()
+			
 		}
-					
+		
+		gameState.findAngle = function () {
+			this.mousePoint = new Kiwi.Geom.Point( this.mouse.x, this.mouse.y );
+			var playerPos = new Kiwi.Geom.Point( this.player.x +  this.player.anchorPointX, this.player.y +  this.player.anchorPointY );
+			
+			return playerPos.angleTo( this.mousePoint );
+		}
+		
 		gameState.update = function() {
 			Kiwi.State.prototype.update.call(this);
-			console.log(123);
+			//this.player.centerAnchorPoint(1,1);
+			this.player.rotation = this.findAngle() + Math.PI / 2;
+			
+			var velocityX = 3 * Math.abs(this.player.x - this.mouse.x) / Math.abs(this.player.y - this.mouse.y);
+			var velocityY = 3 * (1/(Math.abs(this.player.x - this.mouse.x) / Math.abs(this.player.y - this.mouse.y)));
+			
+			if ( velocityX > 3 ){
+				velocityX = 3;
+			}
+			if ( velocityY > 3 ){
+				velocityY = 3;
+			}
+			console.log(velocityX,velocityY);
+			//console.log(this.mouse.x);
+			if ( this.player.x - this.mouse.x <= 0 ){
+				this.player.x += velocityX;
+			}else if (this.player.x - this.mouse.x >= 0){
+				this.player.x -= velocityX;
+			}
+			
+			if ( this.player.y  - this.mouse.y <= 0){
+				this.player.y += velocityY;
+			}else if ( this.player.y- this.mouse.y >= 0){
+				this.player.y -= velocityY;
+			}
+			//console.log(this.player.anchorPointX, this.player.anchorPointY);
 		}
 		
 		
