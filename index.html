@@ -19,7 +19,7 @@
 		gameState.create = function (){
 			Kiwi.State.prototype.create.call( this );
 			
-			this.player = new Kiwi.GameObjects.Sprite( this, this.textures["player"],0, 0, true);
+			this.player = new Kiwi.GameObjects.Sprite( this, this.textures["player"],700, 700, true);
 			this.addChild(this.player);
 		}
 					
