@@ -19,8 +19,8 @@
 		gameState.create = function (){
 			Kiwi.State.prototype.create.call( this );
 			
-			//this.player = new Kiwi.GameObjects.Sprite( this, this.textures["player"],350, 330, true);
-			//this.addChild(this.player);
+			this.player = new Kiwi.GameObjects.Sprite( this, this.textures["player"],0, 0, true);
+			this.addChild(this.player);
 		}
 					
 		gameState.update = function() {
