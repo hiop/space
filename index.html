@@ -2,10 +2,21 @@
 <html>
 	<head>
 		<script type="text/javascript" src="./kiwi/kiwi.js"></script>
+		<script type="text/javascript" src="./lib/socket.io.js"></script>
 	</head>
 	<body style="background-color: #ccc;">
 	</body >
 	<script>
+		var socket = io('http://sadhp.ddns.net:8081');
+		socket.on('connect', function(){
+			console.log("CONNECT")
+			socket.send("hello")
+		});
+		//socket.emit('hello', { hello: 'world' });
+
+		socket.on('disconnect', function(){
+		console.log("DISCONNECT")
+		});
 		
 		var gameOptions = {
 			renderer: Kiwi.RENDERER_WEBGL, 
@@ -57,7 +68,7 @@
 			if ( velocityY > 3 ){
 				velocityY = 3;
 			}
-			console.log(velocityX,velocityY);
+			//console.log(velocityX,velocityY);
 			//console.log(this.mouse.x);
 			if ( this.player.x - this.mouse.x <= 0 ){
 				this.player.x += velocityX;
